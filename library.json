@@ -1,0 +1,13 @@
+{
+  "name": "smartledz-protocol",
+  "version": "0.1.0",
+  "description": "Smart LEDZ protocol v1 command and state codec library",
+  "keywords": ["smartledz", "protocol", "lighting", "mesh"],
+  "license": "MIT",
+  "frameworks": ["*"],
+  "platforms": ["*"],
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  }
+}
