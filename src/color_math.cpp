@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Implementation of Smart LEDZ v1 CT/RGB conversion helpers.
+ */
+
 #include <smartledz_protocol/v1/color_math.h>
 
 #include <algorithm>
@@ -9,6 +14,10 @@ namespace v1 {
 
 namespace {
 
+/**
+ * @internal
+ * @brief Rounds and clamps a floating-point channel value to the 8-bit range.
+ */
 uint8_t clip_and_round_channel_(double value) {
   const auto rounded = static_cast<int>(std::round(value));
   if (rounded < 0) {
@@ -20,10 +29,18 @@ uint8_t clip_and_round_channel_(double value) {
   return static_cast<uint8_t>(rounded);
 }
 
+/**
+ * @internal
+ * @brief Clamps correlated color temperature to the model's valid range.
+ */
 double clamp_cct_(double cct) {
   return std::max(1800.0, std::min(12000.0, cct));
 }
 
+/**
+ * @internal
+ * @brief Clamps Duv to the model's fitted range.
+ */
 double clamp_duv_(double duv) {
   return std::max(-6.0, std::min(6.0, duv));
 }

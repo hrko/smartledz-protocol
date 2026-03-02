@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Implementation of Smart LEDZ v1 notify payload decoders.
+ */
+
 #include <smartledz_protocol/v1/state_codec.h>
 
 namespace smartledz_protocol {
@@ -5,6 +10,10 @@ namespace v1 {
 
 namespace {
 
+/**
+ * @internal
+ * @brief Returns the state entry for a device address, creating a default snapshot when absent.
+ */
 DeviceStateSnapshot &state_ref_(uint16_t address, std::map<uint16_t, DeviceStateSnapshot> *states) {
   auto it = states->find(address);
   if (it != states->end()) {
@@ -14,6 +23,10 @@ DeviceStateSnapshot &state_ref_(uint16_t address, std::map<uint16_t, DeviceState
   return inserted.first->second;
 }
 
+/**
+ * @internal
+ * @brief Appends an updated device address when output collection is enabled.
+ */
 void append_updated_(uint16_t address, std::vector<uint16_t> *updated_addresses) {
   if (updated_addresses == nullptr) {
     return;
