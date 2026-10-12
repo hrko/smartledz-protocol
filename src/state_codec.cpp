@@ -58,12 +58,16 @@ void apply_online_status_payload(const uint8_t *payload10, size_t payload_len, u
     auto &state = state_ref_(addr, states);
     state.seen = true;
     state.online_status = status;
-    state.has_online_brightness = true;
-    state.online_brightness = brightness;
-    state.has_power = true;
-    state.power = (status != 0) && (brightness != 0);
-    state.has_brightness = true;
-    state.brightness = brightness;
+    state.has_reachability = true;
+    state.reachable = status != 0;
+    if (state.reachable) {
+      state.has_online_brightness = true;
+      state.online_brightness = brightness;
+      state.has_power = true;
+      state.power = brightness != 0;
+      state.has_brightness = true;
+      state.brightness = brightness;
+    }
     state.type_raw = type_raw;
     state.last_update_ms = now_ms;
     append_updated_(addr, updated_addresses);
@@ -79,6 +83,8 @@ void apply_status_payload(uint16_t src, const uint8_t *payload10, size_t payload
 
   auto &state = state_ref_(src, states);
   state.seen = true;
+  state.has_reachability = true;
+  state.reachable = true;
   state.last_update_ms = now_ms;
 
   const uint8_t b0 = payload10[0];
@@ -113,6 +119,8 @@ void apply_f1_response_payload(uint16_t src, const uint8_t *payload10, size_t pa
 
   auto &state = state_ref_(src, states);
   state.seen = true;
+  state.has_reachability = true;
+  state.reachable = true;
   state.has_brightness = true;
   state.brightness = payload10[6];
   state.last_update_ms = now_ms;

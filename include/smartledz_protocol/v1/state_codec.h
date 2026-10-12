@@ -20,6 +20,10 @@ namespace v1 {
 struct DeviceStateSnapshot {
   /// True after at least one payload was applied for this address.
   bool seen{false};
+  /// True when reachability has been reported or a direct response received.
+  bool has_reachability{false};
+  /// Whether the device was reachable at the latest update.
+  bool reachable{false};
   /// Raw online status byte from `0xDC` online-status payloads.
   uint8_t online_status{0};
   /// True when `online_brightness` is valid.
@@ -28,7 +32,7 @@ struct DeviceStateSnapshot {
   uint8_t online_brightness{0};
   /// True when `power` has been derived from a payload.
   bool has_power{false};
-  /// Derived power state (`status != 0 && brightness != 0`).
+  /// Last known power state; offline reports do not overwrite it.
   bool power{false};
   /// True when `brightness` has been decoded from any payload type.
   bool has_brightness{false};
